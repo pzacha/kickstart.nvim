@@ -113,6 +113,11 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- Neo-tree keymaps
+vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<CR>', { desc = 'Toggle file [E]xplorer' })
+vim.keymap.set('n', '<leader>ef', '<cmd>Neotree focus<CR>', { desc = 'Focus file explorer' })
+vim.keymap.set('n', '<leader>er', '<cmd>Neotree reveal<CR>', { desc = 'Reveal current file in explorer' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -613,7 +618,20 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                diagnosticMode = 'workspace',
+                autoImportCompletions = true,
+                autoSearchPaths = true,
+                extraPaths = { './src' },
+                useLibraryCodeForTypes = true,
+                typeCheckingMode = 'basic',
+              },
+            },
+          },
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -709,10 +727,20 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        python = { 'ruff' },
+        python = { 'ruff_sort', 'ruff' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      },
+      formatters = {
+        ruff = {
+          command = 'uv',
+          args = { 'run', 'ruff', 'format', '--stdin-filename', '$FILENAME', '-' },
+        },
+        ruff_sort = {
+          command = 'uv',
+          args = { 'run', 'ruff', 'check', '--select', 'I', '--fix', '--stdin-filename', '$FILENAME', '-' },
+        },
       },
     },
   },
@@ -917,7 +945,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
