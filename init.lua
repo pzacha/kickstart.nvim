@@ -118,6 +118,10 @@ vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<CR>', { desc = 'Toggle fil
 vim.keymap.set('n', '<leader>ef', '<cmd>Neotree focus<CR>', { desc = 'Focus file explorer' })
 vim.keymap.set('n', '<leader>er', '<cmd>Neotree reveal<CR>', { desc = 'Reveal current file in explorer' })
 
+-- Git blame keymaps
+vim.keymap.set('n', '<leader>gb', '<cmd>Gitsigns blame_line<CR>', { desc = '[G]it [B]lame line' })
+vim.keymap.set('n', '<leader>gB', '<cmd>Gitsigns toggle_current_line_blame<CR>', { desc = '[G]it [B]lame toggle' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -965,22 +969,22 @@ require('lazy').setup({
           enabled = false,
         },
         closing_tags = {
-          highlight = "ErrorMsg", -- highlight for the closing tag
-          prefix = ">", -- character to use for close tag e.g. > Widget
-          enabled = true -- set to false to disable
+          highlight = 'ErrorMsg', -- highlight for the closing tag
+          prefix = '>', -- character to use for close tag e.g. > Widget
+          enabled = true, -- set to false to disable
         },
         dev_log = {
           enabled = true,
           notify_errors = false, -- if there is an error whilst running then notify the user
-          open_cmd = "tabedit", -- command to use to open the log buffer
+          open_cmd = 'tabedit', -- command to use to open the log buffer
         },
         dev_tools = {
           autostart = false, -- autostart devtools server if not detected
           auto_open_browser = false, -- Automatically opens devtools in the browser
         },
         outline = {
-          open_cmd = "30vnew", -- command to use to open the outline buffer
-          auto_open = false -- if true this will open the outline automatically when it is first populated
+          open_cmd = '30vnew', -- command to use to open the outline buffer
+          auto_open = false, -- if true this will open the outline automatically when it is first populated
         },
         lsp = {
           color = { -- show the derived colours for dart variables
@@ -989,17 +993,17 @@ require('lazy').setup({
             background_color = nil, -- required, when background is transparent (i.e. background_color = { r = 19, g = 17, b = 24},)
             foreground = false, -- highlight the foreground
             virtual_text = true, -- show the highlight using virtual text
-            virtual_text_str = "■", -- the virtual text character to highlight
+            virtual_text_str = '■', -- the virtual text character to highlight
           },
           on_attach = function(client, bufnr)
             -- LSP keymaps for Flutter files
             local opts = { buffer = bufnr, silent = true }
-            vim.keymap.set('n', '<leader>fr', '<cmd>FlutterRestart<CR>', { desc = '[F]lutter [R]estart', buffer = bufnr })
-            vim.keymap.set('n', '<leader>fR', '<cmd>FlutterReload<CR>', { desc = '[F]lutter [R]eload', buffer = bufnr })
-            vim.keymap.set('n', '<leader>fq', '<cmd>FlutterQuit<CR>', { desc = '[F]lutter [Q]uit', buffer = bufnr })
-            vim.keymap.set('n', '<leader>fd', '<cmd>FlutterDevices<CR>', { desc = '[F]lutter [D]evices', buffer = bufnr })
-            vim.keymap.set('n', '<leader>fe', '<cmd>FlutterEmulators<CR>', { desc = '[F]lutter [E]mulators', buffer = bufnr })
-            vim.keymap.set('n', '<leader>fo', '<cmd>FlutterOutlineToggle<CR>', { desc = '[F]lutter [O]utline Toggle', buffer = bufnr })
+            vim.keymap.set('n', '<leader>dr', '<cmd>FlutterRestart<CR>', { desc = '[F]lutter [R]estart', buffer = bufnr })
+            vim.keymap.set('n', '<leader>dR', '<cmd>FlutterReload<CR>', { desc = '[F]lutter [R]eload', buffer = bufnr })
+            vim.keymap.set('n', '<leader>dq', '<cmd>FlutterQuit<CR>', { desc = '[F]lutter [Q]uit', buffer = bufnr })
+            vim.keymap.set('n', '<leader>dd', '<cmd>FlutterDevices<CR>', { desc = '[F]lutter [D]evices', buffer = bufnr })
+            vim.keymap.set('n', '<leader>de', '<cmd>FlutterEmulators<CR>', { desc = '[F]lutter [E]mulators', buffer = bufnr })
+            vim.keymap.set('n', '<leader>do', '<cmd>FlutterOutlineToggle<CR>', { desc = '[F]lutter [O]utline Toggle', buffer = bufnr })
           end,
           capabilities = require('blink.cmp').get_lsp_capabilities(),
           -- OR you can specify a function to deactivate or change or control how the config is created
@@ -1013,14 +1017,14 @@ require('lazy').setup({
             showTodos = true,
             completeFunctionCalls = true,
             analysisExcludedFolders = {
-              vim.fn.expand("$HOME/.pub-cache"),
-              vim.fn.expand("$HOME/Tools/flutter/"),
+              vim.fn.expand '$HOME/.pub-cache',
+              vim.fn.expand '$HOME/Tools/flutter/',
             },
-            renameFilesWithClasses = "prompt", -- "always"
+            renameFilesWithClasses = 'prompt', -- "always"
             enableSnippets = true,
             updateImportsOnRename = true, -- Whether to update imports and other directives when files are renamed. Required for `FlutterRename` command.
-          }
-        }
+          },
+        },
       }
     end,
   },
