@@ -135,6 +135,12 @@ vim.keymap.set('n', '<leader>yP', function()
   vim.notify('Copied absolute path: ' .. path, vim.log.levels.INFO)
 end, { desc = '[Y]ank file [P]ath (absolute)' })
 
+vim.keymap.set('n', '<leader>yf', function()
+  local filename = vim.fn.expand '%:t'
+  vim.fn.setreg('+', filename)
+  vim.notify('Copied filename: ' .. filename, vim.log.levels.INFO)
+end, { desc = '[Y]ank [F]ilename' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
